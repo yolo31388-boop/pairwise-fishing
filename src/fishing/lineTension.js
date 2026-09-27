@@ -1,11 +1,14 @@
-
 class LineTension {
-  constructor(maxStrength) { this.maxStrength=maxStrength; this.current=0; }
+  constructor(maxStrength, minTension = 0.5) {
+    this.maxStrength = maxStrength;
+    this.minTension = minTension;
+    this.current = 0;
+  }
+
   update(dt, reelSpeed, fishStruggle) {
-    // BUG: 张力计算简单
-    this.current = fishStruggle;
+    this.current = fishStruggle + Math.max(0, reelSpeed) * 2;
     if (this.current > this.maxStrength) return 'break';
-    if (this.current < 0) return 'loose';
+    if (this.current < this.minTension) return 'loose';
     return 'ok';
   }
 }
